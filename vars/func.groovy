@@ -2,7 +2,7 @@
 
 def call(body) {
     this.echo "Triggering ${name} stage..."
-    script.stage(name) {
+    this.stage(name) {
         script.echo "Triggering in ${name} stage..."
     }
     return this
