@@ -2,7 +2,7 @@
 
 def call(body) {
     this.echo "Deploy to env stage..."
-    this.stage("Deploy to env image") {
+    this.stage("Deploy to env") {
     }
     return this
 }
