@@ -3,7 +3,7 @@
 def call(body) {
     this.echo "Preparations stage..."
     this.stage("Preparations") {
-        this.echo "Print ${envs}"
+        this.echo  "${params}"
     }
     return this
 }
