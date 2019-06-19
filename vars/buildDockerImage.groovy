@@ -5,7 +5,7 @@ import pipeline.Deployer
 def call(body) {
     this.echo "Build Docker image stage..."
     this.stage("Build Docker image") {
-        new Deployer()
+        new Sample(1, 2)
     }
     return this
 }
