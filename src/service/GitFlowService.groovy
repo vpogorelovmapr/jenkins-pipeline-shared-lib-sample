@@ -3,7 +3,6 @@ package service
 class GitFlowService {
 
     GitFlowService(GitService gitService) {
-        super(gitService)
     }
 
 //    @Override
