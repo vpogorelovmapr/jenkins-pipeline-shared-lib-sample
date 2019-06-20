@@ -1,8 +1,10 @@
 package service
 
+import service.impl.GitServiceImpl
+
 class GitFlowService {
 
-    GitFlowService(GitService gitService) {
+    GitFlowService(GitServiceImpl gitService) {
     }
 
 //    @Override
