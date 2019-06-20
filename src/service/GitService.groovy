@@ -8,7 +8,7 @@ class GitService extends RevisionControlService {
     GitFlowService gitFlowService
     Script script
 
-    GitService(Script script, String repo, String credentialsId,
+    GitService(Script dsl, String repo, String credentialsId,
                String repoOwner) {
         this.script = script
         this.repo = repo
@@ -19,90 +19,90 @@ class GitService extends RevisionControlService {
 
     @Override
     def setUp() {
-        this.echo "setUp git started"
-        this.sh 'git config --global user.email "jenkins@javatar.pro"'
-        this.sh 'git config --global user.name "jenkins"'
-        this.echo "setUp git finished"
+        script.echo "setUp git started"
+        script.sh 'git config --global user.email "jenkins@javatar.pro"'
+        script.sh 'git config --global user.name "jenkins"'
+        script.echo "setUp git finished"
     }
 
     @Override
     def checkout(String branch) {
-        this.echo "Git checkout repo: ${repo}, branch: ${branch}"
+        script.echo "Git checkout repo: ${repo}, branch: ${branch}"
 //        this.String repoUrl = urlResolver.getRepoUrl()
-        this.echo "credentialsId: ${credentialsId}, url: ${repo}"
-        this.git credentialsId: credentialsId, url: repo
-        this.sh "pwd; ls -la"
-        this.sh "git checkout ${branch}"
-        this.echo "GitService checkout successfully finished for repo: ${repo}, branch: ${branch}"
+        script.echo "credentialsId: ${credentialsId}, url: ${repo}"
+        script.git credentialsId: credentialsId, url: repo
+        script.sh "pwd; ls -la"
+        script.sh "git checkout ${branch}"
+        script.echo "GitService checkout successfully finished for repo: ${repo}, branch: ${branch}"
     }
 
     @Override
     def checkoutRepo(String repoOwner, String repo, String branch) {
-        this.echo "Git checkoutRepo: repoOwner: ${repoOwner}, repo: ${repo}, branch: ${branch}"
+        script.echo "Git checkoutRepo: repoOwner: ${repoOwner}, repo: ${repo}, branch: ${branch}"
         String repoUrl = urlResolver.getRepoUrl(repoOwner, repo)
         return checkoutRepo(repoUrl, branch)
     }
 
     @Override
     def checkoutRepo(String repoUrl, String branch) {
-        this.timeout(time: 5, unit: 'MINUTES') {
-            this.git credentialsId: credentialsId, url: repoUrl
-            this.sh "pwd; ls -la"
-            this.sh "git checkout ${branch}"
-            this.echo "GitService#checkoutRepo successfully finished for repoUrl: ${repoUrl}, branch: ${branch}"
+        script.timeout(time: 5, unit: 'MINUTES') {
+            script.git credentialsId: credentialsId, url: repoUrl
+            script.sh "pwd; ls -la"
+            script.sh "git checkout ${branch}"
+            script.echo "GitService#checkoutRepo successfully finished for repoUrl: ${repoUrl}, branch: ${branch}"
         }
     }
 
     def createReleaseBranchLocally(String releaseVersion) {
-        this.echo "createReleaseBranchLocally releaseVersion - ${releaseVersion}"
-        this.sh "git status"
-        this.sh "git flow release start ${releaseVersion}"
-        this.echo "createReleaseBranchLocally finished"
+        script.echo "createReleaseBranchLocally releaseVersion - ${releaseVersion}"
+        script.sh "git status"
+        script.sh "git flow release start ${releaseVersion}"
+        script.echo "createReleaseBranchLocally finished"
     }
 
     def commitChanges(String message) {
-        this.echo "commit changes with message: ${message}"
-        this.sh "git status"
-        this.sh "git add ."
-        this.sh "git status"
-        this.sh "git commit -m \'${message}\'"
-        this.echo "successfully committed"
+        script.echo "commit changes with message: ${message}"
+        script.sh "git status"
+        script.sh "git add ."
+        script.sh "git status"
+        script.sh "git commit -m \'${message}\'"
+        script.echo "successfully committed"
     }
 
     def switchToBranch(String branch) {
-        this.echo "switchToBranch: ${branch} started"
-        this.sh "git checkout ${branch}"
-        this.echo "switchToBranch: ${branch} finished"
+        script.echo "switchToBranch: ${branch} started"
+        script.sh "git checkout ${branch}"
+        script.echo "switchToBranch: ${branch} finished"
     }
 
     def createBranch(String branchName) {
-        this.sh "git checkout -b ${branchName}"
+        script.sh "git checkout -b ${branchName}"
         commitChanges("create new branch: ${branchName}")
     }
 
     def createAndPushBranch(String branchName) {
-        this.echo "started createAndPushBranch: ${branchName}"
-        this.sh "git checkout -b ${branchName}"
-        this.sshagent([credentialsId]) {
-            this.sh "git push -u origin ${branchName}"
+        script.echo "started createAndPushBranch: ${branchName}"
+        script.sh "git checkout -b ${branchName}"
+        script.sshagent([credentialsId]) {
+            script.sh "git push -u origin ${branchName}"
         }
         this.echo "finished createAndPushBranch: ${branchName}"
     }
 
     def pushNewBranches() {
-        this.echo "started pushNewBranches"
-        this.sshagent([credentialsId]) {
-            this.sh "git push --all -u"
+        script.echo "started pushNewBranches"
+        script.sshagent([credentialsId]) {
+            script.sh "git push --all -u"
         }
-        this.echo "finished pushNewBranches"
+        script.echo "finished pushNewBranches"
     }
 
     def pushNewBranch(String branchName) {
-        this.echo "started pushNewBranch: ${branchName}"
-        this.sshagent([credentialsId]) {
-            this.sh "git push -u origin ${branchName}"
+        script.echo "started pushNewBranch: ${branchName}"
+        script.sshagent([credentialsId]) {
+            script.sh "git push -u origin ${branchName}"
         }
-        this.echo "finished pushNewBranch: ${branchName}"
+        script.echo "finished pushNewBranch: ${branchName}"
     }
 
     String getProdBranch() {
@@ -118,10 +118,10 @@ class GitService extends RevisionControlService {
     }
 
     def pushRelease() {
-        this.sshagent([credentialsId]) {
-            this.sh "git push"
-            this.sh "git push --all"
-            this.sh "git push origin --tags"
+        script.sshagent([credentialsId]) {
+            script.sh "git push"
+            script.sh "git push --all"
+            script.sh "git push origin --tags"
         }
     }
 
