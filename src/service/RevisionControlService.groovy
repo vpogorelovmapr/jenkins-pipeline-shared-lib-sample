@@ -31,13 +31,13 @@ abstract class RevisionControlService {
     }
 
     public void cleanUp() {
-        this.echo "start cleanup"
-        this.sh "pwd; ls -la"
-        this.sh "rm -rf ${folder}"
-        this.sh "rm -rf ${folder}@tmp"
-        this.sh "mkdir ${folder}"
-        this.sh "pwd; ls -la"
-        this.echo "end cleanup"
+        script.echo "start cleanup"
+        script.sh "pwd; ls -la"
+        script.sh "rm -rf ${folder}"
+        script.sh "rm -rf ${folder}@tmp"
+        script.sh "mkdir ${folder}"
+        script.sh "pwd; ls -la"
+        script.echo "end cleanup"
     }
 
     abstract def setUp()
