@@ -7,8 +7,9 @@ class GitService extends RevisionControlService {
     String repoOwner
     GitFlowService gitFlowService
 
-    GitService(String repo, String credentialsId,
+    GitService(Script script, String repo, String credentialsId,
                String repoOwner) {
+        this.script = script
         this.repo = repo
         this.credentialsId = credentialsId
         this.repoOwner = repoOwner
