@@ -24,6 +24,12 @@ abstract class RevisionControlService {
     private static final String DEFAULT_CHECKOUT_FOLDER = "repo"
     private String folder = DEFAULT_CHECKOUT_FOLDER
 
+    protected Script script
+
+    RevisionControlService(Script script) {
+        this.script = script
+    }
+
     public void cleanUp() {
         this.echo "start cleanup"
         this.sh "pwd; ls -la"

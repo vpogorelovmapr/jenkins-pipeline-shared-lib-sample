@@ -10,7 +10,7 @@ class GitService extends RevisionControlService {
 
     GitService(Script script, String repo, String credentialsId,
                String repoOwner) {
-        this.script = script
+        super(script)
         this.repo = repo
         this.credentialsId = credentialsId
         this.repoOwner = repoOwner
