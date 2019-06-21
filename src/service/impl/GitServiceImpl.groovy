@@ -12,7 +12,7 @@ class GitServiceImpl implements GitService {
     String repo
     String repoOwner
     GitFlowService gitFlowService
-    Script script = script
+    Script script
 
     GitServiceImpl(Script script, String repo, String credentialsId,
                    String repoOwner) {
