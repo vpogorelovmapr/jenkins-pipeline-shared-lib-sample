@@ -11,4 +11,6 @@ interface GitService {
     abstract def checkoutRepo(String repoOwner, String repo, String branch)
 
     abstract def checkoutRepo(String repoUrl, String branch)
+
+    abstract def cleanUp()
 }

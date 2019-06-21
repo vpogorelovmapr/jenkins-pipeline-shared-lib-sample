@@ -58,6 +58,17 @@ class GitServiceImpl implements GitService {
         }
     }
 
+    @Override
+    def cleanUp() {
+        script.echo "start cleanup"
+        script.sh "pwd; ls -la"
+        script.sh "rm -rf ${folder}"
+        script.sh "rm -rf ${folder}@tmp"
+        script.sh "mkdir ${folder}"
+        script.sh "pwd; ls -la"
+        script.echo "end cleanup"
+    }
+
     def createReleaseBranchLocally(String releaseVersion) {
         script.echo "createReleaseBranchLocally releaseVersion - ${releaseVersion}"
         script.sh "git status"
